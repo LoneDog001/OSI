@@ -11,8 +11,8 @@ public class Main {
         System.out.println("Server started");
         int port = 8195;
         String nameReceived = "";
-        String ageReceived  = "";
-        String surnameReceived  = "";
+        String ageReceived = "";
+        String surnameReceived = "";
 
         try (ServerSocket serverSocket = new ServerSocket(port)) {
             while (true) {
@@ -21,17 +21,25 @@ public class Main {
                     {
                         {
                             if (nameReceived.isEmpty() && surnameReceived.isEmpty() && ageReceived.isEmpty()) {
-                                nameReceived  = in.readLine();
-                            } else if (!nameReceived.isEmpty() && surnameReceived .isEmpty() && ageReceived.isEmpty()) {
+                                nameReceived = in.readLine();
+                            } else if (!nameReceived.isEmpty() && surnameReceived.isEmpty() && ageReceived.isEmpty()) {
                                 surnameReceived = in.readLine();
                             } else if (!nameReceived.isEmpty() && !surnameReceived.isEmpty() && ageReceived.isEmpty()) {
                                 ageReceived = in.readLine();
-                            } else {
-                                final String welcomeMessage = ageReceived.equals("no")
-                                        ? "Welcome to the adult zone, %s %s! Have a good rest, or a good working day!"
-                                        : "Welcome to the kids area,%s %s! Let's play!";
-                                System.out.printf(welcomeMessage, nameReceived, surnameReceived);
-                                break;
+                                if (ageReceived.equalsIgnoreCase("yes")) {
+                                    String welcomeMessage = "Welcome to the kids area,%s %s! Let's play!";
+                                    System.out.printf(welcomeMessage, nameReceived, surnameReceived);
+                                    System.out.println();
+                                    break;
+                                } else if (ageReceived.equalsIgnoreCase("no")) {
+                                    String welcomeMessage = "Welcome to the adult zone, %s %s! Have a good rest, or a good working day!";
+                                    System.out.printf(welcomeMessage, nameReceived, surnameReceived);
+                                    System.out.println();
+                                    break;
+                                } else {
+                                    System.out.println("Не правильно введены данные, повторите попытку.");
+                                    break;
+                                }
                             }
                         }
                     }
@@ -40,5 +48,6 @@ public class Main {
                 }
             }
         }
+        System.out.println("Server stopped");
     }
 }
